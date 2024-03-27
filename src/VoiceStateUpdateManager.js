@@ -4,6 +4,8 @@ const { ChannelType } = require('discord.js')
 
 function createPrivateRoom(newState){
 
+
+    // definir le nom du salon cree
     voiceName = newState.member.nickname
     if (voiceName === null){
         voiceName = newState.member.user.username
@@ -25,7 +27,7 @@ function createPrivateRoom(newState){
         ,],
     }).then((voiceChannel) => {
 
-        // mettre gars dans son salon
+        // mettre l'utilisateur dans son salon
         newState.setChannel(voiceChannel)
         return Promise.resolve(voiceChannel)
     })
