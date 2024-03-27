@@ -1,7 +1,7 @@
 const { PermissionFlagsBits } = require('discord-api-types/v10');
 const { ChannelType } = require('discord.js')
 
-
+// create a private room for someone
 function createPrivateRoom(newState){
 
 
@@ -34,6 +34,7 @@ function createPrivateRoom(newState){
 
 }
 
+// check if a private room is empty, and delete it if so
 function checkAndDeletePrivateRoom(newState, privateRoomList){ 
      
     // pour tous les channels
@@ -53,6 +54,7 @@ function checkAndDeletePrivateRoom(newState, privateRoomList){
     })
 }
 
+// function called when anyone join/leave a voice channel
 function voiceStateUpdate(oldState, newState, privateRoomList){
 
     // verifier que qqun join le salon créateur de salon temporaire
