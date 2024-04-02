@@ -7,6 +7,8 @@ const VoiceStateUpdateManager = require('./src/VoiceStateUpdateManager.js')
 const messageCreateManager = require('./src/VoiceStateUpdateManager.js')
 const interactionCreateManager = require('./src/interactionCreateManager.js')
 const CommandList = require('./src/CommandList.js')
+const packageJSON = require("./package.json");
+
 
 let privateRoomList = []
 
@@ -20,8 +22,6 @@ const bot = new Discord.Client({intents: [
 })
 
 bot.on('ready', function () {
-    console.log("ChevreOnBot en ligne !")
-    bot.user.setActivity("Powered by la Chevre de Légende")
 
     commands = CommandList.getCommandList()
 
@@ -29,15 +29,18 @@ bot.on('ready', function () {
         bot.application.commands.create(command)
     }
     
+    console.log("ChevreOnBot en ligne !")
+    bot.user.setActivity("Powered by la Chevre de Légende")
+    console.log("discord v" + packageJSON.dependencies["discord.js"])
+    
 })
 
 
 bot.on("interactionCreate", (interaction) => {
-    if (!interaction.isChatInputCommand()) return;
+    // console.log(interaction)
     
     interactionCreateManager.interactionCreate(interaction)
 
-    console.log(interaction)
 })
 
 Discord.ChatInputCommandInteraction
@@ -46,6 +49,7 @@ Discord.ChatInputCommandInteraction
 
 bot.on("messageCreate", async (message) => {
     // messageCreateManager.messageCreateManager(message)
+    
 })
 
 bot.on("voiceStateUpdate", async (oldState, newState) => {
