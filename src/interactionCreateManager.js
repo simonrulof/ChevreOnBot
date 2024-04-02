@@ -12,11 +12,21 @@ async function create_ticket(interaction){
         name: `ticket de ${channelName}`,
         type: ChannelType.GuildText,
         parent: interaction.channel.parentId,
+    }).then((newChannel) => {
+
+        const open_ticket_message_frame = new Discord.EmbedBuilder()
+        .setColor(0x623460)
+        .setTitle(`Ticket de ${channelName}`)
+        .setDescription(`Bienvenue dans le ticket de ${channelName}\nVeuillez décrire votre problème, une réponse sera donnée dans les plus brefs délais`)
+    
+        newChannel.send({
+            embeds: [open_ticket_message_frame]
+        })
+
     })
 
     interaction.deferReply();
     interaction.deleteReply();
-
 
 }
 
@@ -39,7 +49,7 @@ async function setup_ticket_channel(interaction){
             interaction.deleteReply();
 
     const channel = interaction.guild.channels.cache.get(interaction.channelId)
-    channel.send({
+    interaction.channel.send({
         embeds: [ticket_frame],
         components: [row]
     })

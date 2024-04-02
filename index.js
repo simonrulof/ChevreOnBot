@@ -30,7 +30,7 @@ bot.on('ready', function () {
     }
     
     console.log("ChevreOnBot en ligne !")
-    bot.user.setActivity("Powered by la Chevre de Légende")
+    bot.user.setActivity("Powered by Simonstrueux")
     console.log("discord v" + packageJSON.dependencies["discord.js"])
     
 })
