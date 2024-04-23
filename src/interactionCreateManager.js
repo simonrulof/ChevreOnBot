@@ -2,10 +2,54 @@ const Discord = require('discord.js')
 const { ChannelType, ModalBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, TextInputBuilder, TextInputStyle } = require('discord.js')
 
 const CHANNEL_TRANSCRIPT_ID = "1232252872109064193"
+EVERYONE_ID = "638401862692765716"
+MODO_ID = "1029803595018805318"
 // TODO => change way of getting ID (database voir avec adra)
 
 
 async function claim_ticket(interaction){
+    interaction.channel.permissionOverwrites.edit(MODO_ID, {
+        ViewChannel: false
+    })
+
+    interaction.channel.permissionOverwrites.edit(interaction.member.id, {
+        ViewChannel: true
+    })
+
+    const button_close_ticket_available = new ButtonBuilder()
+            .setCustomId('close ticket')
+            .setLabel('Fermer un ticket')
+            .setStyle(ButtonStyle.Danger)
+            .setDisabled(false);
+
+    const button_claim_ticket_disabled = new ButtonBuilder()
+        .setCustomId('claim ticket')
+        .setLabel('prendre en charge le ticket')
+        .setStyle(ButtonStyle.Primary)
+        .setDisabled(true);
+
+    const row = new ActionRowBuilder()
+        .addComponents(button_close_ticket_available, button_claim_ticket_disabled)
+
+    interaction.message.edit({
+        components: [row]
+    })
+
+    userName = interaction.member.nickname
+    if (userName === null){
+        userName = interaction.member.user.username
+    }
+
+    const claim_ticket_message_frame = new EmbedBuilder()
+        .setColor(0x623460)
+        .setTitle(`Ticket prit en charge par ${userName}`)
+        
+    interaction.channel.send({
+        embeds: [claim_ticket_message_frame]
+    })
+
+    interaction.deferReply();
+    interaction.deleteReply();
 }
 
 
@@ -23,9 +67,9 @@ async function close_ticket(interaction){
         }
 
         const closing_ticket_recap_embed = new EmbedBuilder()
-        .setColor(0x623460)
-        .setTitle(`${transcript_channel.name}`)
-        .setDescription(`Ticket fermé par ${userName} pour raison : \n${output_reason}`)
+            .setColor(0x623460)
+            .setTitle(`${interaction.channel.name}`)
+            .setDescription(`Ticket fermé par ${userName} pour raison : \n${output_reason}`)
         
         transcript_channel.send({
             embeds: [closing_ticket_recap_embed],
@@ -69,23 +113,42 @@ async function create_ticket(interaction){
         parent: interaction.channel.parentId,
     }).then((newChannel) => {
 
+        newChannel.permissionOverwrites.set([
+            {
+                id: EVERYONE_ID,
+                deny: [Discord.PermissionsBitField.Flags.ViewChannel,
+                       Discord.PermissionsBitField.Flags.SendMessages]
+            },
+            {
+                id: MODO_ID,
+                allow: [Discord.PermissionsBitField.Flags.ViewChannel],
+                deny: [Discord.PermissionsBitField.Flags.SendMessages]
+            },
+            {
+                id: interaction.member.id,
+                allow: [Discord.PermissionsBitField.Flags.ViewChannel, 
+                        Discord.PermissionsBitField.Flags.SendMessages],
+            }
+        ])
+
         const open_ticket_message_frame = new EmbedBuilder()
-        .setColor(0x623460)
-        .setTitle(`Ticket de ${channelName}`)
-        .setDescription(`Bienvenue dans le ticket de ${channelName}\nVeuillez décrire votre problème, une réponse sera donnée dans les plus brefs délais`)
+            .setColor(0x623460)
+            .setTitle(`Ticket de ${channelName}`)
+            .setDescription(`Bienvenue dans le ticket de ${channelName}\nVeuillez décrire votre problème, une réponse sera donnée dans les plus brefs délais`)
         
-        const button_close_ticket = new ButtonBuilder()
+        const button_close_ticket_disabled = new ButtonBuilder()
             .setCustomId('close ticket')
             .setLabel('Fermer un ticket')
-            .setStyle(ButtonStyle.Primary);
+            .setStyle(ButtonStyle.Danger)
+            .setDisabled(true);
         
         const button_claim_ticket = new ButtonBuilder()
             .setCustomId('claim ticket')
             .setLabel('prendre en charge le ticket')
-            .setStyle(ButtonStyle.Primary);
+            .setStyle(ButtonStyle.Primary)
     
         const row = new ActionRowBuilder()
-            .addComponents(button_close_ticket, button_claim_ticket);
+            .addComponents(button_close_ticket_disabled, button_claim_ticket);
     
         newChannel.send({
             embeds: [open_ticket_message_frame],
