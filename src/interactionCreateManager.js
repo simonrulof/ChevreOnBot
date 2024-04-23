@@ -1,9 +1,38 @@
 const Discord = require('discord.js')
 const { ChannelType, ModalBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, TextInputBuilder, TextInputStyle } = require('discord.js')
 
+const CHANNEL_TRANSCRIPT_ID = "1232252872109064193"
+// TODO => change way of getting ID (database voir avec adra)
+
+
+async function claim_ticket(interaction){
+}
+
+
 async function close_ticket(interaction){
 
-    // TODO => get reason of ticket close, and print recap of ticket on transcript salon
+    
+
+    output_reason = interaction.fields.getTextInputValue("close ticket reason")
+    
+    interaction.guild.channels.fetch(CHANNEL_TRANSCRIPT_ID).then((transcript_channel) => {
+
+        userName = interaction.member.nickname
+        if (userName === null){
+            userName = interaction.member.user.username
+        }
+
+        const closing_ticket_recap_embed = new EmbedBuilder()
+        .setColor(0x623460)
+        .setTitle(`${transcript_channel.name}`)
+        .setDescription(`Ticket fermé par ${userName} pour raison : \n${output_reason}`)
+        
+        transcript_channel.send({
+            embeds: [closing_ticket_recap_embed],
+        })
+
+    })
+
 
     interaction.channel.delete()
     interaction.deferUpdate()
@@ -115,6 +144,9 @@ function interactionCreate(interaction, bot){
         }
         if (interaction.customId === "close ticket"){
             open_Modal_ticket(interaction)
+        }
+        if (interaction.customId === "claim ticket"){
+            claim_ticket(interaction)
         }
     }
 
