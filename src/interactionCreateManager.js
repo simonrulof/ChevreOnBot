@@ -8,6 +8,12 @@ MODO_ID = "1029803595018805318"
 
 
 async function claim_ticket(interaction){
+    
+    if (!interaction.member.roles.cache.some(role => role.id === MODO_ID)){
+        interaction.reply({content: "you do not have the right to do that", ephemeral: true})
+        return 0
+    }
+
     interaction.channel.permissionOverwrites.edit(MODO_ID, {
         ViewChannel: false
     })
@@ -83,6 +89,11 @@ async function close_ticket(interaction){
 }
 
 async function open_Modal_ticket(interaction){
+    if (!interaction.member.roles.cache.some(role => role.id === MODO_ID)){
+        interaction.reply({content: "you do not have the right to do that", ephemeral: true})
+        return 0
+    }
+
     const modal = new ModalBuilder()
         .setCustomId('close ticket modal')
         .setTitle('Fermer le ticket');
