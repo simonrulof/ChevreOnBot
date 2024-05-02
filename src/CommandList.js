@@ -7,13 +7,19 @@ function getCommandList(){
     commands.push(
         new Discord.SlashCommandBuilder()
         .setName('ping')
-        .setDescription('this is a ping command')
+        .setDescription('this is a ping command')   
     )
 
     commands.push(
         new Discord.SlashCommandBuilder()
         .setName('setup_ticket_channel')
         .setDescription('initialise l\'outil \"créer un ticket\" dans ce salon')
+    )
+
+    commands.push(
+        new Discord.SlashCommandBuilder()
+        .setName('setup_transcript_channel')
+        .setDescription('initialise le salon actuel pour afficher les transcripts')
     )
 
 

@@ -1,16 +1,17 @@
-const Discord = require('discord.js')
-const { ChannelType, ModalBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, TextInputBuilder, TextInputStyle } = require('discord.js')
+const Discord = require('discord.js');
+const { ChannelType, ModalBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
+const ConfigManager = require('./src/ConfigsManager.js');
 
 const CHANNEL_TRANSCRIPT_ID = "1232252872109064193"
-EVERYONE_ID = "638401862692765716"
-MODO_ID = "1029803595018805318"
-// TODO => change way of getting ID (database voir avec adra)
+const EVERYONE_ID = "638401862692765716"
+const MODO_ID = "1029803595018805318"
+// TODO => change way of getting ID (database see with adra)
 
 
 async function claim_ticket(interaction){
-    
+
     if (!interaction.member.roles.cache.some(role => role.id === MODO_ID)){
-        interaction.reply({content: "you do not have the right to do that", ephemeral: true})
+        interaction.reply({content: "vous n'avez pas les droits pour faire ca", ephemeral: true})
         return 0
     }
 
@@ -199,16 +200,20 @@ async function setup_ticket_channel(interaction){
 }
 
 
-function interactionCreate(interaction, bot){
+async function interactionCreate(interaction, bot){
     if (interaction.isChatInputCommand() )
     {
     
         if (interaction.commandName === "ping"){
-            setup_ticket_channel(interaction)
+            interaction.reply("pong")
         }
 
         if (interaction.commandName === "setup_ticket_channel"){
             setup_ticket_channel(interaction)
+        }
+
+        if (interaction.commandName === "setup_transcript_channel"){
+            ConfigManager.setup_transcript_channel(interaction)
         }
     }
 

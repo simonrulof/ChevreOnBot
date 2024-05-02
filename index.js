@@ -1,12 +1,13 @@
 
 const Discord = require('discord.js')
+const fs = require('node:fs');
 
 require("dotenv").config();
 
 const VoiceStateUpdateManager = require('./src/VoiceStateUpdateManager.js')
-const messageCreateManager = require('./src/VoiceStateUpdateManager.js')
-const interactionCreateManager = require('./src/interactionCreateManager.js')
+const interactionCreateManager = require('./src/InteractionCreateManager.js')
 const CommandList = require('./src/CommandList.js')
+
 const packageJSON = require("./package.json");
 
 
@@ -37,7 +38,6 @@ bot.on('ready', function () {
 
 
 bot.on("interactionCreate", (interaction) => {
-    // console.log(interaction)
     
     interactionCreateManager.interactionCreate(interaction)
 
@@ -54,8 +54,8 @@ bot.on("messageCreate", async (message) => {
 
 bot.on("voiceStateUpdate", async (oldState, newState) => {
 
-    // verifier que qqun join le salon créateur de salon temporaire
     VoiceStateUpdateManager.voiceStateUpdate(oldState, newState, privateRoomList)
+
 })
 
 bot.login(process.env.TOKEN)
