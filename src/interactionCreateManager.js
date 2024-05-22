@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const { ChannelType, ModalBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
-const ConfigManager = require('./src/ConfigsManager.js');
+const ConfigManager = require('./ConfigsManager.js');
+const discordTranscripts = require('discord-html-transcripts');
 
 const CHANNEL_TRANSCRIPT_ID = "1232252872109064193"
 const EVERYONE_ID = "638401862692765716"
@@ -69,24 +70,28 @@ async function close_ticket(interaction){
     interaction.guild.channels.fetch(CHANNEL_TRANSCRIPT_ID).then((transcript_channel) => {
 
         userName = interaction.member.nickname
-        if (userName === null){
-            userName = interaction.member.user.username
-        }
+        discordTranscripts.createTranscript(interaction.channel).then((attachment) => { 
+            if (userName === null){
+                userName = interaction.member.user.username
+            }
 
-        const closing_ticket_recap_embed = new EmbedBuilder()
-            .setColor(0x623460)
-            .setTitle(`${interaction.channel.name}`)
-            .setDescription(`Ticket fermé par ${userName} pour raison : \n${output_reason}`)
-        
-        transcript_channel.send({
-            embeds: [closing_ticket_recap_embed],
+            const closing_ticket_recap_embed = new EmbedBuilder()
+                .setColor(0x623460)
+                .setTitle(`${interaction.channel.name}`)
+                .setDescription(`Ticket fermé par ${userName} pour raison : \n${output_reason}`)
+            
+            transcript_channel.send({
+                embeds: [closing_ticket_recap_embed],
+                files: [attachment],
+            });
+
+            interaction.channel.delete()
+            interaction.deferUpdate()
         })
 
     })
 
 
-    interaction.channel.delete()
-    interaction.deferUpdate()
 }
 
 async function open_Modal_ticket(interaction){
@@ -214,6 +219,10 @@ async function interactionCreate(interaction, bot){
 
         if (interaction.commandName === "setup_transcript_channel"){
             ConfigManager.setup_transcript_channel(interaction)
+        }
+
+        if (interaction.commandName === "setup_modo_id"){
+            ConfigManager.setup_modo_id(interaction)
         }
     }
 
