@@ -4,7 +4,7 @@ const SixNineRoleID = '1245744244677672960'
 async function sixNine(interaction){
     //console.log(roles.at(0))
     interaction.options._hoistedOptions[0].member.roles.add(SixNineRoleID)
-    interaction.options._hoistedOptions[0].member.timeout(69)
+    interaction.options._hoistedOptions[0].member.timeout(69000, "prend ton 69")
 
     interaction.deferReply();
     interaction.deleteReply();
