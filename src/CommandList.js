@@ -28,8 +28,19 @@ function getCommandList(){
         .setDescription('setup le role qui aura acces aux salons tickets')
         .addStringOption((option) => 
             option.setName("modo_id")
-                  .setDescription("id du role qui aura acces aux salons tickets")
-                  .setRequired(true)
+                .setDescription("id du role qui aura acces aux salons tickets")
+                .setRequired(true)
+        )
+    )
+
+    commands.push(
+        new Discord.SlashCommandBuilder()
+        .setName('69')
+        .setDescription('setup le role qui aura acces aux salons tickets')
+        .addUserOption((option) => 
+            option.setName("username")
+                .setDescription("pseudo de la personne qui se fera 69 :D")
+                .setRequired(true)
         )
     )
 

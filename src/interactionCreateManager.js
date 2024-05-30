@@ -2,6 +2,7 @@ const Discord = require('discord.js');
 const { ChannelType, ModalBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 const ConfigManager = require('./ConfigsManager.js');
 const discordTranscripts = require('discord-html-transcripts');
+const SixNineManager = require('./SixNineManager.js')
 
 const CHANNEL_TRANSCRIPT_ID = "1232252872109064193"
 const EVERYONE_ID = "638401862692765716"
@@ -223,6 +224,10 @@ async function interactionCreate(interaction, bot){
 
         if (interaction.commandName === "setup_modo_id"){
             ConfigManager.setup_modo_id(interaction)
+        }
+
+        if (interaction.commandName === "69"){
+            SixNineManager.sixNine(interaction)
         }
     }
 

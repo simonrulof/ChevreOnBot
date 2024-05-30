@@ -48,11 +48,11 @@ async function setup_config_line(interaction, config, value){
 }
 
 async function setup_transcript_channel(interaction){
-    setup_config_line(interaction, "CHANNEL_TRANSCRIPT_ID", null)
+    setup_config_line(interaction, "setup_modo_id", null)
 }
 
 async function setup_modo_id(interaction){
-    console.log(interaction)
+    console.log(interaction) // TODO CHANGER DANS LA DB LE MODO ID
 }
 
 
