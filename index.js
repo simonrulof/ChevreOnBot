@@ -4,8 +4,8 @@ const fs = require('node:fs');
 
 require("dotenv").config(); // TEST
 
-const VoiceStateUpdateManager = require('./src/VoiceStateUpdateManager.js')
-const interactionCreateManager = require('./src/InteractionCreateManager.js')
+const VoiceStateUpdateManager = require('./src/VoiceStateUpdateManager.js');
+const InteractionCreateManager = require('./src/InteractionCreateManager.js');
 const CommandList = require('./src/CommandList.js')
 
 const packageJSON = require("./package.json");
@@ -39,7 +39,7 @@ bot.on('ready', function () {
 
 bot.on("interactionCreate", (interaction) => {
     
-    interactionCreateManager.interactionCreate(interaction)
+    InteractionCreateManager.interactionCreate(interaction)
 
 })
 

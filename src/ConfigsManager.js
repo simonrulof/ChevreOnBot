@@ -1,5 +1,32 @@
 const fs = require('fs')
 
+
+async function setup_ticket_channel(interaction){
+
+    const ticket_frame = new EmbedBuilder()
+        .setColor(0x623460)
+        .setTitle('Ouvrir un ticket')
+        .setDescription('En cliquant sur \"Créer un Ticket\", un ticket s\'ouvrira pour vous')
+        
+    const button_ticket = new ButtonBuilder()
+		.setCustomId('create Ticket')
+		.setLabel('Créer un ticket')
+		.setStyle(ButtonStyle.Primary);
+
+    const row = new ActionRowBuilder()
+			.addComponents(button_ticket);
+
+    interaction.deferReply();
+    interaction.deleteReply();
+
+    interaction.channel.send({
+        embeds: [ticket_frame],
+        components: [row]
+    })
+
+}
+
+
 function getConfigs(){
     const allFileContents = fs.readFileSync(process.env.CONFIG_FILE, 'utf-8');
 
@@ -56,4 +83,4 @@ async function setup_modo_id(interaction){
 }
 
 
-module.exports = { getConfigs, setup_transcript_channel, setup_modo_id };   
+module.exports = { getConfigs, setup_transcript_channel, setup_modo_id, setup_ticket_channel };   
