@@ -2,7 +2,7 @@
 const Discord = require('discord.js')
 const fs = require('node:fs');
 
-require("dotenv").config();
+require("dotenv").config(); // TEST
 
 const VoiceStateUpdateManager = require('./src/VoiceStateUpdateManager.js')
 const interactionCreateManager = require('./src/InteractionCreateManager.js')
