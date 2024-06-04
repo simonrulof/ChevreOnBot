@@ -1,7 +1,4 @@
-const Discord = require('discord.js');
-const { ChannelType, ModalBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder, TextInputBuilder, TextInputStyle } = require('discord.js');
 const ConfigManager = require('./ConfigsManager.js');
-const discordTranscripts = require('discord-html-transcripts');
 const SixNineManager = require('./SixNineManager.js')
 const TicketManager = require('./TicketManager.js')
 // TODO => change way of getting ID (database see with adra)

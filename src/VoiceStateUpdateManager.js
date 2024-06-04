@@ -1,6 +1,3 @@
-const { PermissionFlagsBits } = require('discord-api-types/v10');
-const { ChannelType } = require('discord.js')
-
 const PrivateRoomManager = require('./PrivateRoomManager.js')
 PERSONNAL_ROOM_CREATOR_ID = '638401862692765720'
 

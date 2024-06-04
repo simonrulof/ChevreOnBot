@@ -1,4 +1,5 @@
 const fs = require('fs')
+const fs = require('node:fs');
 
 
 async function setup_ticket_channel(interaction){

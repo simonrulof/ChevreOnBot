@@ -1,6 +1,5 @@
 
 const Discord = require('discord.js')
-const fs = require('node:fs');
 
 require("dotenv").config(); // TEST
 
